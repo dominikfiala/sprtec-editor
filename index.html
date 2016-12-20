@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>A Pen by Dominik Fiala</title>
+  <link href="./css/bootstrap.min.css" rel="stylesheet">
+  <link href="./css/style.css" rel="stylesheet">
+</head>
+<body>
+  <div id="app">
+    <div id="wrap">
+      <div id="controls">
+        <!-- <form v-on:keyup.tab="tabPressed"> -->
+        <form>
+          <div class="row">
+            <div class="col-xs-8 form-group">
+              <select id="add-group-select" class="form-control">
+                <option value="">Tým</option>
+                <option v-for="template in templates" :value="template.name">{{template.title}}</option>
+              </select>
+            </div>
+            <div class="col-xs-4 form-group">
+              <button v-on:click="addGroup" class="btn btn-success" type="button">Přidat tým</button>
+            </div>
+          </div>
+
+          <div v-for="(group, groupIndex) in groups" class="group-control">
+            <div class="row form-group">
+              <div class="col-xs-8 form-control-static">
+                <strong>{{group.template.title}}</strong>
+              </div>
+              <div class="col-xs-4">
+                <button v-on:click="addItem(groupIndex)" class="btn btn-success" type="button">Přidat hrace</button>
+              </div>
+            </div>
+
+            <div v-for="(fields, itemIndex) in group.items" class="row form-group">
+              <div v-for="field in fields" :class="field.class">
+                <input type="text" :placeholder="field.title" v-model="field.value" class="form-control">
+              </div>
+              <div class="col-xs-1">
+                <button v-on:click="removeItem(groupIndex, itemIndex)" type="button" class="btn btn-danger btn-block btn-xs">&times;</button>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div id="preview">
+        <div v-for="(group, groupIndex) in groups">
+          <div v-for="(item, itemIndex) in group.items" class="item">
+            <svg viewBox="0 0 300 300" width="200" height="200" xmlns="http://www.w3.org/2000/svg">
+              <g clip-path="url(#clip)">
+                <image :xlink:href="group.template.style.image" x="0" y="0" width="100%" height="100%" />
+                <circle
+                  cx="150" cy="150" r="145"
+                  fill="none" stroke="red" class="mix-blend"
+                  stroke-width="1" vector-effect="non-scaling-stroke" />
+                <text v-for="text in group.template.text">1</text>
+                <!-- <text
+                  class="name"
+                  x="150" y="261" text-anchor="middle"
+                  font-family="new_athletic_m54regular" font-size="34" fill="#00285d"
+                  stroke="#ffb924" stroke-width="4" paint-order="stroke">{{item.name}}</text>
+                <text
+                  class="number"
+                  x="190" y="105" text-anchor="middle"
+                  font-family="new_athletic_m54regular" font-size="42" fill="#00285d"
+                  stroke="#ffb924" stroke-width="4" paint-order="stroke">{{item.number}}</text> -->
+              </g>
+              <defs>
+                <clipPath id="clip">
+                  <circle cx="150" cy="150" r="150" />
+                </clipPath>
+              </defs>
+            </svg>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script src="./js/vue.js"></script>
+  <script src="./js/script.js"></script>
+</body>
+</html>
