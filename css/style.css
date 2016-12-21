@@ -35,15 +35,16 @@ body {
   display: inline;
 }
 #app #wrap #preview .item {
-  margin: 1em;
   display: inline-block;
 }
 #app #wrap #preview .item svg {
+  margin: 1em;
   width: 200px;
   height: 200px;
 }
 @media print {
   #app #wrap #preview .item svg {
+    margin: 2.5mm;
     width: 3cm;
     height: 3cm;
   }

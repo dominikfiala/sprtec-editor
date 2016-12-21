@@ -41,14 +41,15 @@ body {
       }
 
       .item {
-        margin: 1em;
         display: inline-block;
 
         svg {
+          margin: 1em;
           width: 200px;
           height: 200px;
 
           @media print {
+            margin: 2.5mm;
             width: 3cm;
             height: 3cm;
           }

@@ -137,10 +137,9 @@ var app = new Vue({
       }
       this.groups[groupIndex].unshift(item);
 
-      // hack to focus new field after vue rendered it
-      (function() {
+      Vue.nextTick(function() {
         $$("[data-group-index='"+ groupIndex +"']")[0].getElement('input').focus();
-      }).delay(100);
+      });
     },
     removeItem: function(groupIndex, itemIndex) {
       this.groups[groupIndex].splice(itemIndex, 1);
