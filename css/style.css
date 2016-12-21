@@ -21,6 +21,11 @@ body {
   background: rgba(0, 0, 0, 0.1);
   overflow-y: auto;
 }
+@media print {
+  #app #wrap #controls {
+    display: none;
+  }
+}
 #app #wrap #preview {
   flex: 1;
   overflow-y: auto;
@@ -29,6 +34,16 @@ body {
 #app #wrap #preview .item {
   margin: 1em;
   display: inline-block;
+}
+#app #wrap #preview .item svg {
+  width: 200px;
+  height: 200px;
+}
+@media print {
+  #app #wrap #preview .item svg {
+    width: 3cm;
+    height: 3cm;
+  }
 }
 .row {
   margin-right: -5px;

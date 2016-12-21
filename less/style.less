@@ -25,8 +25,12 @@ body {
       padding: @gutter * 2;
       background: rgba(0, 0, 0, 0.1);
       overflow-y: auto;
+
+      @media print {
+        display: none;
+      }
     }
-    
+
     #preview {
       flex: 1;
       overflow-y: auto;
@@ -35,6 +39,16 @@ body {
       .item {
         margin: 1em;
         display: inline-block;
+
+        svg {
+          width: 200px;
+          height: 200px;
+
+          @media print {
+            width: 3cm;
+            height: 3cm;
+          }
+        }
       }
     }
   }

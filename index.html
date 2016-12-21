@@ -16,7 +16,7 @@
             <div class="col-xs-8 form-group">
               <select id="add-group-select" class="form-control">
                 <option value="">Tým</option>
-                <option v-for="template in templates" :value="template.name">{{template.title}}</option>
+                <option v-for="(templateName, templateIndex) in availableTemplates" :value="templateIndex">{{templateName}}</option>
               </select>
             </div>
             <div class="col-xs-4 form-group">
@@ -27,16 +27,16 @@
           <div v-for="(group, groupIndex) in groups" class="group-control">
             <div class="row form-group">
               <div class="col-xs-8 form-control-static">
-                <strong>{{group.template.title}}</strong>
+                <strong>{{templates[groupIndex].title}}</strong>
               </div>
               <div class="col-xs-4">
-                <button v-on:click="addItem(groupIndex)" class="btn btn-success" type="button">Přidat hrace</button>
+                <button v-on:click="addItem(groupIndex)" class="btn btn-success" type="button">Přidat hráče</button>
               </div>
             </div>
 
-            <div v-for="(fields, itemIndex) in group.items" class="row form-group">
-              <div v-for="field in fields" :class="field.class">
-                <input type="text" :placeholder="field.title" v-model="field.value" class="form-control">
+            <div v-for="(item, itemIndex) in group" class="row form-group">
+              <div v-for="(field, fieldIndex) in templates[groupIndex].text" :class="field.controls.parentClass">
+                <input type="text" :placeholder="field.controls.placeholder" v-model="groups[groupIndex][itemIndex][fieldIndex]" class="form-control">
               </div>
               <div class="col-xs-1">
                 <button v-on:click="removeItem(groupIndex, itemIndex)" type="button" class="btn btn-danger btn-block btn-xs">&times;</button>
@@ -47,15 +47,15 @@
       </div>
       <div id="preview">
         <div v-for="(group, groupIndex) in groups">
-          <div v-for="(item, itemIndex) in group.items" class="item">
+          <div v-for="(item, itemIndex) in group" class="item">
             <svg viewBox="0 0 300 300" width="200" height="200" xmlns="http://www.w3.org/2000/svg">
               <g clip-path="url(#clip)">
-                <image :xlink:href="group.template.style.image" x="0" y="0" width="100%" height="100%" />
+                <image :xlink:href="templates[groupIndex].style.image" x="0" y="0" width="100%" height="100%" />
                 <circle
                   cx="150" cy="150" r="145"
                   fill="none" stroke="red" class="mix-blend"
                   stroke-width="1" vector-effect="non-scaling-stroke" />
-                <text v-for="text in group.template.text">1</text>
+                <text v-for="(field, fieldIndex) in templates[groupIndex].text" v-bind="field.style">{{item[fieldIndex]}}</text>
                 <!-- <text
                   class="name"
                   x="150" y="261" text-anchor="middle"
