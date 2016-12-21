@@ -1,1 +1,1 @@
-"# sprtec-editor" 
+# Editor šprtcových hráčů
