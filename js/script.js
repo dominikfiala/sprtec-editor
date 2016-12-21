@@ -58,9 +58,9 @@ var data = {
               'y': 261,
               'text-anchor': 'middle',
               'font-family': 'new_athletic_m54regular',
-              'fill': '#00285d',
-              'stroke': '#ffb924',
-              'stroke-width': 4,
+              'fill': '#fff',
+              'stroke': '#00285d',
+              'stroke-width': 7,
               'paint-order': 'stroke',
               'font-size': 34
             }
@@ -75,9 +75,9 @@ var data = {
               'y': 105,
               'text-anchor': 'middle',
               'font-family': 'new_athletic_m54regular',
-              'fill': '#00285d',
-              'stroke': '#ffb924',
-              'stroke-width': 4,
+              'fill': '#fff',
+              'stroke': '#00285d',
+              'stroke-width': 7,
               'paint-order': 'stroke',
               'font-size': 42
             }
@@ -106,7 +106,7 @@ var app = new Vue({
     availableTemplates: function() {
       var out = {};
       for (group in this.templates) {
-        if (!this.groups[group]) {
+        if (!this.groups[group].length) {
           out[group] = this.templates[group].title;
         }
       }
@@ -121,12 +121,14 @@ var app = new Vue({
         option.selectedIndex = 0;
         option.parentNode.classList.remove('has-error');
         this.$set(this.groups, group, []);
+        this.addItem(group);
       }
       else {
         option.parentNode.classList.add('has-error');
         option.focus();
       }
     },
+
     addItem: function(groupIndex) {
       var template = this.templates[groupIndex];
       var item = {};
@@ -134,12 +136,22 @@ var app = new Vue({
         item[text] = '';
       }
       this.groups[groupIndex].unshift(item);
+
+      // hack to focus new field after vue rendered it
+      (function() {
+        $$("[data-group-index='"+ groupIndex +"']")[0].getElement('input').focus();
+      }).delay(100);
     },
     removeItem: function(groupIndex, itemIndex) {
       this.groups[groupIndex].splice(itemIndex, 1);
     },
+
     tabPressed: function(event) {
-      console.log(event, this.addItem);
+      var inputs = event.target.getParent('.form-group').getElements('input');
+      if (inputs.getLast() === event.target) {
+        event.preventDefault();
+        this.addItem(event.target.getParent('.group-control').get('data-group-index'));
+      }
     }
   }
 });

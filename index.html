@@ -2,7 +2,7 @@
 <html>
 <head>
   <meta charset="UTF-8">
-  <title>A Pen by Dominik Fiala</title>
+  <title>Editor šprtcových hráčů</title>
   <link href="./css/bootstrap.min.css" rel="stylesheet">
   <link href="./css/style.css" rel="stylesheet">
 </head>
@@ -10,45 +10,44 @@
   <div id="app">
     <div id="wrap">
       <div id="controls">
-        <!-- <form v-on:keyup.tab="tabPressed"> -->
         <form>
           <div class="row">
-            <div class="col-xs-8 form-group">
+            <div class="col-xs-10 form-group">
               <select id="add-group-select" class="form-control">
                 <option value="">Tým</option>
                 <option v-for="(templateName, templateIndex) in availableTemplates" :value="templateIndex">{{templateName}}</option>
               </select>
             </div>
-            <div class="col-xs-4 form-group">
-              <button v-on:click="addGroup" class="btn btn-success" type="button">Přidat tým</button>
+            <div class="col-xs-2 form-group">
+              <button v-on:click="addGroup" class="btn btn-success btn-block" type="button"><strong>+</strong></button>
             </div>
           </div>
 
-          <div v-for="(group, groupIndex) in groups" class="group-control">
-            <div class="row form-group">
-              <div class="col-xs-8 form-control-static">
+          <div v-for="(group, groupIndex) in groups" class="group-control" :data-group-index="groupIndex">
+            <div v-if="group.length" class="row form-group">
+              <div class="col-xs-10 form-control-static">
                 <strong>{{templates[groupIndex].title}}</strong>
               </div>
-              <div class="col-xs-4">
-                <button v-on:click="addItem(groupIndex)" class="btn btn-success" type="button">Přidat hráče</button>
+              <div class="col-xs-2">
+                <button v-on:click="addItem(groupIndex)" class="btn btn-success btn-block" type="button"><strong>+</strong></button>
               </div>
             </div>
 
-            <div v-for="(item, itemIndex) in group" class="row form-group">
-              <div v-for="(field, fieldIndex) in templates[groupIndex].text" :class="field.controls.parentClass">
+            <div v-for="(item, itemIndex) in group" class="row form-group" v-on:keydown.tab="tabPressed">
+              <div v-for="(field, fieldIndex) in templates[groupIndex].text" :class="[field.controls.parentClass, groups[groupIndex][itemIndex][fieldIndex] ? '' : 'has-error']">
                 <input type="text" :placeholder="field.controls.placeholder" v-model="groups[groupIndex][itemIndex][fieldIndex]" class="form-control">
               </div>
               <div class="col-xs-1">
-                <button v-on:click="removeItem(groupIndex, itemIndex)" type="button" class="btn btn-danger btn-block btn-xs">&times;</button>
+                <button v-on:click="removeItem(groupIndex, itemIndex)" type="button" class="btn btn-danger btn-block btn-xs"><strong>&times;</strong></button>
               </div>
             </div>
           </div>
         </form>
       </div>
       <div id="preview">
-        <div v-for="(group, groupIndex) in groups">
+        <div v-for="(group, groupIndex) in groups" class="group">
           <div v-for="(item, itemIndex) in group" class="item">
-            <svg viewBox="0 0 300 300" width="200" height="200" xmlns="http://www.w3.org/2000/svg">
+            <svg viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg">
               <g clip-path="url(#clip)">
                 <image :xlink:href="templates[groupIndex].style.image" x="0" y="0" width="100%" height="100%" />
                 <circle
@@ -79,6 +78,7 @@
     </div>
   </div>
   <script src="./js/vue.js"></script>
+  <script src="./js/MooTools-Core-1.6.0.js"></script>
   <script src="./js/script.js"></script>
 </body>
 </html>

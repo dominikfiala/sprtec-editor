@@ -31,6 +31,9 @@ body {
   overflow-y: auto;
   user-select: none;
 }
+#app #wrap #preview .group {
+  display: inline-block;
+}
 #app #wrap #preview .item {
   margin: 1em;
   display: inline-block;
