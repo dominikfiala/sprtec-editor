@@ -106,7 +106,7 @@ var app = new Vue({
     availableTemplates: function() {
       var out = {};
       for (group in this.templates) {
-        if (!this.groups[group] && !(this.groups[group] && this.groups[group].length)) {
+        if (!(this.groups[group] && this.groups[group].length)) {
           out[group] = this.templates[group].title;
         }
       }
