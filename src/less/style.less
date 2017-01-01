@@ -1,9 +1,17 @@
 @gutter: 5px;
 
 @font-face {
-  font-family: 'new_athletic_m54regular';
+  font-family: 'new_athletic_m54';
   src: url('../fonts/new_athletic_m54-webfont.woff2') format('woff2'),
        url('../fonts/new_athletic_m54-webfont.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'jersey_m54';
+  src: url('../fonts/jersey_m54-webfont.woff2') format('woff2'),
+       url('../fonts/jersey_m54-webfont.woff') format('woff');
   font-weight: normal;
   font-style: normal;
 }
@@ -12,6 +20,11 @@
 body {
   margin: 0;
 }
+#app-loader {
+  text-align: center;
+  margin-top: 25%;
+}
+
 #app {
   display: flex;
   height: 100vh;
@@ -34,7 +47,7 @@ body {
     #preview {
       flex: 1;
       overflow-y: auto;
-      user-select: none;
+      // user-select: none;
 
       .group {
         display: inline;
@@ -44,10 +57,6 @@ body {
         display: inline-block;
 
         svg {
-          margin: 1em;
-          width: 200px;
-          height: 200px;
-
           @media print {
             margin: 2.5mm;
             width: 3cm;

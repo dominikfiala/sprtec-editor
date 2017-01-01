@@ -1,0 +1,30 @@
+{
+  "name": "sprtec-editor",
+  "version": "1.0.0",
+  "description": "Editor potisku hracu na sprtec",
+  "main": "index.html",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dominikfiala/sprtec-editor.git"
+  },
+  "keywords": [
+    "sprtec",
+    "hraci",
+    "editor",
+    "dres"
+  ],
+  "author": "Dominik Fiala",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/dominikfiala/sprtec-editor/issues"
+  },
+  "homepage": "https://github.com/dominikfiala/sprtec-editor#readme",
+  "dependencies": {
+    "bootstrap": "^3.3.7",
+    "jquery": "^3.1.1",
+    "vue": "^2.1.8"
+  }
+}

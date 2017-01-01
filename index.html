@@ -3,11 +3,35 @@
 <head>
   <meta charset="UTF-8">
   <title>Editor šprtcových hráčů</title>
-  <link href="./css/bootstrap.min.css" rel="stylesheet">
-  <link href="./css/style.css" rel="stylesheet">
+  <link href="node_modules/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="./src/css/style.css" rel="stylesheet">
 </head>
 <body>
-  <div id="app">
+  <div id="app-loader">Aplikace se načítá&hellip;</div>
+
+  <script type="text/x-template" id="preview-item-template">
+    <div class="item" ref="item.index">
+      <svg viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg" :style="{margin: item.previewSize / 20}" :width="item.previewSize" :height="item.previewSize">
+        <g clip-path="url(#clip)">
+          <image :xlink:href="item.style.image" x="0" y="0" width="100%" height="100%" />
+          <circle
+            cx="150" cy="150" r="145"
+            fill="none" stroke="red" class="mix-blend"
+            stroke-width="1" vector-effect="non-scaling-stroke" />
+          <g v-for="text in item.texts">
+            <text v-bind="text.style">{{text.text}}</text>
+          </g>
+        </g>
+        <defs>
+          <clipPath id="clip">
+            <circle cx="150" cy="150" r="150" />
+          </clipPath>
+        </defs>
+      </svg>
+    </div>
+  </script>
+
+  <div id="app" class="hidden">
     <div id="wrap">
       <div id="controls">
         <form>
@@ -35,36 +59,47 @@
 
             <div v-for="(item, itemIndex) in group" class="row form-group" v-on:keydown.tab="tabPressed">
               <div v-for="(field, fieldIndex) in templates[groupIndex].text" :class="[field.controls.parentClass, groups[groupIndex][itemIndex][fieldIndex] ? '' : 'has-error']">
-                <input type="text" :placeholder="field.controls.placeholder" v-model="groups[groupIndex][itemIndex][fieldIndex]" class="form-control">
+                <input type="text" :placeholder="field.controls.placeholder" v-model="groups[groupIndex][itemIndex][fieldIndex]" :class="['form-control', fieldIndex == Object.keys(templates[groupIndex].text)[Object.keys(templates[groupIndex].text).length-1] ? 'last-field' : '']">
               </div>
               <div class="col-xs-1">
                 <button v-on:click="removeItem(groupIndex, itemIndex)" type="button" class="btn btn-danger btn-block btn-xs"><strong>&times;</strong></button>
               </div>
             </div>
           </div>
+
+          <div>
+            <strong>Volby</strong>
+          </div>
+          <div class="row form-group">
+            <div class="col-xs-6 form-control-static">
+              Velikost náhledu
+            </div>
+            <div class="col-xs-6">
+              <input type="range" min="50" max="600" v-model.number="settings.previewSize" class="form-control">
+            </div>
+          </div>
+          <div class="">
+            <button type="button" class="btn btn-primary" v-on:click="print()">Tisk</button>
+          </div>
         </form>
       </div>
       <div id="preview">
+        <preview-item v-for="item in previewItems" :item="item"></preview-item>
+      </div>
+      <!--<div id="preview">
         <div v-for="(group, groupIndex) in groups" class="group">
           <div v-for="(item, itemIndex) in group" class="item">
-            <svg viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg">
+            <svg viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg" :style="{margin: settings.previewSize / 20}" :width="settings.previewSize" :height="settings.previewSize">
               <g clip-path="url(#clip)">
                 <image :xlink:href="templates[groupIndex].style.image" x="0" y="0" width="100%" height="100%" />
                 <circle
                   cx="150" cy="150" r="145"
                   fill="none" stroke="red" class="mix-blend"
                   stroke-width="1" vector-effect="non-scaling-stroke" />
-                <text v-for="(field, fieldIndex) in templates[groupIndex].text" v-bind="field.style">{{item[fieldIndex]}}</text>
-                <!-- <text
-                  class="name"
-                  x="150" y="261" text-anchor="middle"
-                  font-family="new_athletic_m54regular" font-size="34" fill="#00285d"
-                  stroke="#ffb924" stroke-width="4" paint-order="stroke">{{item.name}}</text>
-                <text
-                  class="number"
-                  x="190" y="105" text-anchor="middle"
-                  font-family="new_athletic_m54regular" font-size="42" fill="#00285d"
-                  stroke="#ffb924" stroke-width="4" paint-order="stroke">{{item.number}}</text> -->
+                <g v-for="(field, fieldIndex) in templates[groupIndex].text">
+                  <text v-bind="field.style">{{item[fieldIndex]}}</text>
+                  <text v-for="clone in field.clone" v-bind="Object.assign({}, field.style, clone)">{{item[fieldIndex]}}</text>
+                </g>
               </g>
               <defs>
                 <clipPath id="clip">
@@ -74,11 +109,12 @@
             </svg>
           </div>
         </div>
-      </div>
+      </div>-->
     </div>
   </div>
-  <script src="./js/vue.js"></script>
-  <script src="./js/MooTools-Core-1.6.0.js"></script>
-  <script src="./js/script.js"></script>
+  <script src="node_modules/jquery/dist/jquery.min.js"></script>
+  <script src="node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
+  <script src="node_modules/vue/dist/vue.js"></script>
+  <script src="./src/js/script.js"></script>
 </body>
 </html>
